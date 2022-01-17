@@ -7,9 +7,9 @@ import javafx.scene.paint.Color;
 
 public class Painter {
 	
-	final static Color BASECOLOR =  Color.BLACK;
-	final static Color FOODCOLOR =  Color.CYAN;
-	final static Color SNAKECOLOR =  Color.CORNSILK;
+	final static Color BASECOLOR =  Color.valueOf("141E25");
+	final static Color FOODCOLOR =  Color.valueOf("f26419");
+	final static Color SNAKECOLOR =  Color.valueOf("7eb827");
 	final static Color DEADCOLOR =  Color.RED;
 	final static Color SCORECOLOR =  Color.CYAN;
 
