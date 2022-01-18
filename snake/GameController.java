@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -22,6 +23,7 @@ public class GameController implements Initializable{
     private GameLoop loop;
     private GameField grid;
     private GraphicsContext context;
+    private Boolean isPauseMenuOpen = false;
     
     @FXML
     private StackPane gamePane;
@@ -39,13 +41,32 @@ public class GameController implements Initializable{
 		context = drawArea.getGraphicsContext2D();
 		drawArea.setFocusTraversable(true);
 		drawArea.setOnKeyPressed(e -> {
-			 
+			
+				
 	            Snake snake = grid.getSnake();
-	            if (loop.isKeyPressed()) {
+	            KeyCode code  = e.getCode();
+	            
+	            switch (code) {
+		            case ESCAPE:
+	                	pauseMenu.setVisible(true);
+	                	overlay.setVisible(true);
+	                	loop.pause();
+	                	isPauseMenuOpen = true;
+	                	break;
+	                case ENTER:
+	                    if (!loop.isRunning()) {
+	                        reset();
+	                        (new Thread(loop)).start();
+	                    }
+	            	}
+	            
+	            if (loop.isKeyPressed() || isPauseMenuOpen) {
 	                return;
 	            }
+	            
 	            loop.setKeyPressed();
-	            switch (e.getCode()) {
+	            
+	            switch (code) {
 	                case UP: 
 	                    snake.setUp();
 	                    break;
@@ -58,16 +79,9 @@ public class GameController implements Initializable{
 	                case RIGHT:
 	                    snake.setRight();
 	                    break;
-	                case ESCAPE:
-	                	pauseMenu.setVisible(true);
-	                	overlay.setVisible(true);
-	                	//loop.pause();
+	                default:
+	                	loop.resetKeyPressed();
 	                	break;
-	                case ENTER:
-	                    if (loop.isPaused()) {
-	                        reset();
-	                        (new Thread(loop)).start();
-	                    }
 	            }
 	            startLabel.setVisible(false);
 	        });
@@ -77,23 +91,20 @@ public class GameController implements Initializable{
 	}
 	
 	public void playAfterPause(ActionEvent e) {
-			pauseMenu.setVisible(false);
-			overlay.setVisible(false);
-			if(loop.isPaused()) {
-				loop.resume();
-			}
+			closePauseMenu();
+			loop.resume();
 	}
 	
 	public void restartGame(ActionEvent e) {
 		closePauseMenu(); 
-		loop.pause();
+		loop.stop();
         reset();
             (new Thread(loop)).start();
         }
 	
 	public void openMenu(ActionEvent e) throws IOException {
 		closePauseMenu();
-		loop.pause();
+		loop.stop();
         reset();
 		AnchorPane root = FXMLLoader.load(getClass().getResource("Start.fxml"));
 		gamePane.getChildren().setAll(root);
@@ -106,6 +117,7 @@ public class GameController implements Initializable{
     }
 	
 	private void closePauseMenu() {
+		isPauseMenuOpen = false;
 		startLabel.setVisible(true);
 		pauseMenu.setVisible(false);
 		overlay.setVisible(false);

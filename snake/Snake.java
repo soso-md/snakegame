@@ -18,6 +18,7 @@ public class Snake {
     private Point head;
     private int xVelocity;
     private int yVelocity;
+    private int lastMove = 0;
 
     /**
      * The constructor the snake. It takes the initial point, for the head and the Grid
@@ -92,8 +93,13 @@ public class Snake {
         return head;
     }
 
-    private boolean isStill() {
+    public boolean isStill() {
         return xVelocity == 0 & yVelocity == 0;
+    }
+    
+    public void setStill() {
+        xVelocity = 0;
+        yVelocity = 0;
     }
 
     /**
@@ -115,25 +121,29 @@ public class Snake {
     }
 
     public void setUp() {
-        if (yVelocity == 1 && length > 1) return;
+        if (length > 1 && lastMove == 4) return;
+        lastMove = 1;
         xVelocity = 0;
         yVelocity = -1;
     }
 
     public void setDown() {
-        if (yVelocity == -1 && length > 1) return;
+        if (length > 1 && lastMove == 1) return;
+        lastMove = 4;
         xVelocity = 0;
         yVelocity = 1;
     }
 
     public void setLeft() {
-        if (xVelocity == 1 && length > 1) return;
+        if (length > 1 && lastMove == 2) return;
+        lastMove = 3;
         xVelocity = -1;
         yVelocity = 0;
     }
 
     public void setRight() {
-        if (xVelocity == -1 && length > 1) return;
+        if (length > 1 && lastMove == 3) return;
+        lastMove = 2;
         xVelocity = 1;
         yVelocity = 0;
     }

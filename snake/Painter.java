@@ -45,6 +45,6 @@ public class Painter {
     }
     private static void score(Snake snake, GraphicsContext gc) {
     	gc.setFill(SCORECOLOR);
-        gc.fillText("Score : " + 100 * snake.getPoints().size(), 10, 490);
+        gc.fillText("Score : " + 100 * snake.getPoints().size(), 10, 290);
     }
 }

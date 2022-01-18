@@ -12,7 +12,7 @@ public class GameLoop implements Runnable {
     private int frameRate;
     private float interval;
     private boolean running;
-    private boolean paused;
+    private boolean pause;
     private boolean keyIsPressed;
 
     public GameLoop(final GameField grid, final GraphicsContext context) {
@@ -20,14 +20,17 @@ public class GameLoop implements Runnable {
         this.context = context;
         frameRate = 10;
         interval = 1000.0f / frameRate; // 1000 ms in a second
-        running = true;
-        paused = false;
+        running = true;   
         keyIsPressed = false;
     }
 
     @Override
     public void run() {
-        while (running && !paused) {
+        while (running) {   
+        	while (pause) {
+        		keyIsPressed = false;
+        		System.out.println("pause");
+        	}
             // Time the update and paint calls
             float time = System.currentTimeMillis();
 
@@ -64,17 +67,21 @@ public class GameLoop implements Runnable {
     public void setKeyPressed() {
         keyIsPressed = true;
     }
-
-    public void resume() {
-        paused = false;
+    public void resetKeyPressed() {
+        keyIsPressed = false;
     }
 
     public void pause() {
-        paused = true;
+    	grid.getSnake().setStill();
+    	//pause = true;
     }
 
     public boolean isPaused() {
-        return paused;
+        return grid.getSnake().isStill();
+    }
+    
+    public boolean isRunning() {
+        return running;
     }
     
     public int getFrameRate() {
@@ -84,4 +91,8 @@ public class GameLoop implements Runnable {
     public void setFrameRate(int frameRate) {
         this.frameRate = frameRate;
     }
+
+	public void resume() {
+		pause = false;	
+	}
 }
