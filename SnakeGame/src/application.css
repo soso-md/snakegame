@@ -1,0 +1,62 @@
+@font-face {
+    font-family: 'Superstar';
+    src: url('./src/superstar_memesbruh03.ttf');
+}
+.header{
+	-fx-font-family: 'Superstar';
+	-fx-font-size: 42pt;
+	-fx-text-fill: #f6ae2d;
+}
+.menu-bg{
+	-fx-background-color: #2f4858;
+}
+.note{
+	-fx-font-family: 'Superstar';
+	-fx-font-size: 12pt;
+	-fx-text-fill: #2f4858;
+}
+.font-lg{
+	-fx-font-family: 'Superstar';
+	-fx-font-size: 20pt;
+}
+.btn{
+	-fx-font-family: 'Superstar';
+	-fx-font-size: 14pt;
+}
+.btn-start-game{
+	-fx-font-family: 'Superstar';
+	-fx-font-size: 16pt;
+	-fx-text-fill: #000000;
+	-fx-label-padding: 5px 15px;
+	-fx-background-color:  #f26419;
+}
+.bg-none{
+	-fx-background-color: transparent;
+}
+.bg-orange{
+	-fx-background-color: #f26419;
+}
+.bg-yellow{
+	-fx-background-color: #f6ae2d;
+}
+.bg-lightgreen{
+	-fx-background-color: #7eb827;
+}
+.bg-darkgreen{
+	-fx-background-color: #0b7131;
+}
+.bg-red{
+	-fx-background-color: #E40039;
+}
+.text-orange{
+	-fx-text-fill: #f26419;
+}
+.text-lightgreen{
+	-fx-text-fill: #7eb827;
+}
+.text-black{
+	-fx-text-fill: #000000;
+}
+.text-score{
+	-fx-text-fill: #86bbd8;
+}
