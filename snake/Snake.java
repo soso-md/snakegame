@@ -3,6 +3,9 @@ package snake;
 import java.util.LinkedList;
 import java.util.List;
 
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
+
 /**
  * The class that encapsulates the star of the show. Basically it stores it's current
  * state and stuff like position, velocity, length and so on and so forth.
@@ -19,7 +22,7 @@ public class Snake {
     private int xVelocity;
     private int yVelocity;
     private int lastMove = 0;
-
+  
     /**
      * The constructor the snake. It takes the initial point, for the head and the Grid
      * that it lives (and dies) in.
@@ -36,7 +39,7 @@ public class Snake {
         xVelocity = 0;
         yVelocity = 0;
     }
-
+    
     /**
      * This method is called after food has been consumed. It increases the length of the
      * snake by one.
@@ -65,11 +68,14 @@ public class Snake {
      *
      * @param point The new Point to move to.
      */
+//    public GameController gc = new GameController().getGameController();
+//	gc.setScore();
     private void checkAndAdd(Point point) {
         point = grid.wrap(point);
         safe &= !points.contains(point);
         points.add(point);
         head = point;
+        
     }
 
     /**
@@ -105,6 +111,8 @@ public class Snake {
     /**
      * Make the snake move one square in it's current direction.
      */
+    
+    
     public void move() {
         if (!isStill()) {
             shiftTo(head.translate(xVelocity, yVelocity));

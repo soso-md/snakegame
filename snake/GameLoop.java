@@ -1,5 +1,7 @@
 package snake;
 
+
+import javafx.beans.value.ObservableValue;
 import javafx.scene.canvas.GraphicsContext;
 
 /**
@@ -14,9 +16,13 @@ public class GameLoop implements Runnable {
     private boolean running;
     private boolean pause;
     private boolean keyIsPressed;
+    private boolean deadSnake = false;
+    GameController controller;
+    int oldPoints = 1;
 
-    public GameLoop(final GameField grid, final GraphicsContext context) {
-        this.grid = grid;
+    public GameLoop(final GameField grid, final GraphicsContext context, GameController gc) {
+    	this.controller = gc;
+    	this.grid = grid;
         this.context = context;
         frameRate = 10;
         interval = 1000.0f / frameRate; // 1000 ms in a second
@@ -24,9 +30,12 @@ public class GameLoop implements Runnable {
         keyIsPressed = false;
     }
 
-    @Override
+
+
+	@Override
     public void run() {
         while (running) {   
+        	
         	while (pause) {
         		keyIsPressed = false;
         		System.out.println("pause");
@@ -38,14 +47,24 @@ public class GameLoop implements Runnable {
             Painter.paint(grid, context);
             keyIsPressed = false;
             
-            if (!grid.getSnake().isSafe()) {
-                pause();
-                Painter.paintResetMessage(context);
-                break;
+  
+            if( grid.getSnake().getPoints().size() > oldPoints) {
+            	controller.setScore(grid.getSnake());
+            	oldPoints++;
             }
+            
+            if (!grid.getSnake().isSafe()) {
+            	  stop();
+            	  controller.gameOver(grid.getSnake());
+//            	  deadSnake = true;
+//                pause();
+//                Painter.paintResetMessage(context);
+//                break;
+            }
+            
 
             time = System.currentTimeMillis() - time;
-
+           
             // Adjust the timing correctly
             if (time < interval) {
                 try {
@@ -55,6 +74,7 @@ public class GameLoop implements Runnable {
             }
         }
     }
+    
 
     public void stop() {
         running = false;
@@ -69,6 +89,10 @@ public class GameLoop implements Runnable {
     }
     public void resetKeyPressed() {
         keyIsPressed = false;
+    }
+    
+    public boolean isGameOver() {
+    	return deadSnake;
     }
 
     public void pause() {
@@ -89,6 +113,7 @@ public class GameLoop implements Runnable {
     }
     
     public void setFrameRate(int frameRate) {
+    	this.interval = 1000.0f / frameRate;
         this.frameRate = frameRate;
     }
 

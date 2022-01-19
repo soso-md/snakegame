@@ -17,13 +17,33 @@ import javafx.stage.Stage;
 
 public class Controller {
 	
+	private static int speed = 150;
+	
 	@FXML
 	private AnchorPane StartAnchorPane;
 
 	public void startGame(ActionEvent e) throws IOException {
+		speed = 15;
 		StackPane root = FXMLLoader.load(getClass().getResource("Game.fxml"));
-		StartAnchorPane.getChildren().setAll(root);
-		System.out.println("START GAME");
-	
+		StartAnchorPane.getChildren().setAll(root);	
 	}
+	
+	public void startSimpleGame(ActionEvent e) throws IOException {
+		speed = 7;
+		StackPane root = FXMLLoader.load(getClass().getResource("Game.fxml"));
+		StartAnchorPane.getChildren().setAll(root);	
+	}
+	
+	public void startExpertGame(ActionEvent e) throws IOException {
+		System.out.println("EXPERT");
+		speed = 40;
+		StackPane root = FXMLLoader.load(getClass().getResource("Game.fxml"));
+		StartAnchorPane.getChildren().setAll(root);	
+	}
+
+	public static int getSpeed() {
+		return speed;
+	}
+	
+	
 }

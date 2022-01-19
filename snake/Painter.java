@@ -10,8 +10,7 @@ public class Painter {
 	final static Color BASECOLOR =  Color.valueOf("141E25");
 	final static Color FOODCOLOR =  Color.valueOf("f26419");
 	final static Color SNAKECOLOR =  Color.valueOf("7eb827");
-	final static Color DEADCOLOR =  Color.RED;
-	final static Color SCORECOLOR =  Color.CYAN;
+	final static Color DEADCOLOR =  Color.valueOf("E40039");
 
     public static void paint(GameField grid, GraphicsContext gc) {
         gc.setFill(BASECOLOR);
@@ -44,7 +43,9 @@ public class Painter {
         }
     }
     private static void score(Snake snake, GraphicsContext gc) {
-    	gc.setFill(SCORECOLOR);
-        gc.fillText("Score : " + 100 * snake.getPoints().size(), 10, 290);
+    
+//    	gc.setFill(SCORECOLOR);
+//        gc.fillText("Score : " + 100 * snake.getPoints().size(), 280, 20);
+//        
     }
 }

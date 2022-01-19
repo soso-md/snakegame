@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,35 +31,57 @@ public class GameController implements Initializable{
     @FXML
     private Canvas drawArea;
     @FXML
+    private VBox gameOverScreen;
+    @FXML
     private VBox pauseMenu;
     @FXML
     private Rectangle overlay;
     @FXML
     private Label startLabel;
 
+    @FXML
+    private Label score;
+    
+
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		System.out.println("GAME STARTED" );
+		
 		context = drawArea.getGraphicsContext2D();
 		drawArea.setFocusTraversable(true);
-		drawArea.setOnKeyPressed(e -> {
-			
+		
+		
+		
+		drawArea.setOnKeyPressed(e -> {			
 				
-	            Snake snake = grid.getSnake();
+				loop.setFrameRate(Controller.getSpeed());
+				
+			    Snake snake = grid.getSnake();
+			
 	            KeyCode code  = e.getCode();
 	            
 	            switch (code) {
 		            case ESCAPE:
+		            	if(isPauseMenuOpen) {
+		            		
+		            		closePauseMenu();
+		        			loop.resume();
+	                    }else {
 	                	pauseMenu.setVisible(true);
 	                	overlay.setVisible(true);
 	                	loop.pause();
 	                	isPauseMenuOpen = true;
+	                	}
 	                	break;
 	                case ENTER:
 	                    if (!loop.isRunning()) {
 	                        reset();
 	                        (new Thread(loop)).start();
 	                    }
-	            	}
+	                    
+	            }
+	           
 	            
 	            if (loop.isKeyPressed() || isPauseMenuOpen) {
 	                return;
@@ -90,7 +113,26 @@ public class GameController implements Initializable{
 		 
 	}
 	
+	public void gameOver(Snake snake) {
+//		scoreGameOver.setText((String.valueOf(snake.getPoints().size()*100)));
+		gameOverScreen.setVisible(true);
+    	overlay.setVisible(true);
+	}
+	
+	public void setScore(Snake snake) {
+		Platform.runLater(new Runnable(){
+
+			@Override
+			public void run() {
+				score.setText(String.valueOf(snake.getPoints().size()*100));
+			}
+
+			});
+		
+	}
+	
 	public void playAfterPause(ActionEvent e) {
+			
 			closePauseMenu();
 			loop.resume();
 	}
@@ -112,7 +154,7 @@ public class GameController implements Initializable{
 	
 	private void reset() {
         grid = new GameField(drawArea.getWidth(),drawArea.getHeight());
-        loop = new GameLoop(grid, context);
+        loop = new GameLoop(grid, context, this);
         Painter.paint(grid, context);
     }
 	
@@ -120,9 +162,9 @@ public class GameController implements Initializable{
 		isPauseMenuOpen = false;
 		startLabel.setVisible(true);
 		pauseMenu.setVisible(false);
+		gameOverScreen.setVisible(false);
 		overlay.setVisible(false);
 	}
-	
 
 }
 
