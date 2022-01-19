@@ -1,13 +1,16 @@
-# Team
+# Snake Game
 
-Josef Stracke, 32020
+## Team
+
+Josef Stracke, 32020\
 Sophie Raps, 31891
 
-# Fremde Code Bestandteile
+## Fremde Code Bestandteile
 
-Source of Gameloop, Snake and Painter:
+Source of Gameloop, Snake and Painter:\
 https://codereview.stackexchange.com/questions/151800/snake-in-javafx
 
-# starten des Spiels
-
+## Starten des Spiels
+```
 java -jar Snake.jar
+```
